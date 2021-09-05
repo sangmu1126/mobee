@@ -1,0 +1,44 @@
+{% extends 'new/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% for item in movies %}
+    <div class="row movie-item" style="margin:20px auto;">
+        <div class="col-sm-12">
+            <div class="card border-secondary">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ item.genre }}</h6>
+                  <p class="card-text">평점 : {{ item.average_point }}점</p>
+                  <p class="card-text">리뷰 : {{ item.reviews_count }}개</p>
+                <a href="{% url 'movie-detail' id=item.id %}" class="card-link">자세히 보기</a>
+                <a href="{% url 'movie-update' %}?id={{ item.id }}" class="card-link">수정하기</a>
+              </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="pagination">
+                <span class="step-links text-center" style="width:100%;">
+                    {% if movies.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a href="?page={{ movies.previous_page_number }}">{{ movies.previous_page_number }}</a>
+                    {% endif %}
+
+                    <span class="current">
+                        {{ movies.number }}
+                    </span>
+
+                    {% if movies.has_next %}
+                        <a href="?page={{ movies.next_page_number }}">{{ movies.next_page_number }}</a>
+                        <a href="?page={{ movies.paginator.num_pages }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
